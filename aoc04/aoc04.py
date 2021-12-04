@@ -127,12 +127,10 @@ if doPart2:
                 if len(boards) == 1:
                     loser = True
                     lastS = s
-                    print(f'winnerID = {b.id}')
+                    print(f'loserID = {b.id}')
                     print(f'score = {b.boardScore(s)}')
 
                 boards.remove(b)
         if loser:
             break
-
-    #print(f'result = {boards[0].id} score = {boards[0].boardScore(lastS)}')
 
