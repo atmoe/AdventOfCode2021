@@ -1,0 +1,45 @@
+inp w    
+mul x 0  
+add x z  
+mod x 26
+div z 1  << D (1 or 26)
+add x 14 << A
+eql x w  
+eql x 0  
+mul y 0  
+add y 25 
+mul y x  
+add y 1  
+mul z y  
+mul y 0  
+add y w  
+add y 12 << B
+mul y x  
+add z y  
+
+x = 0
+z = 0
+
+loop
+    x = z % 26
+    z = z / D
+
+    x += A
+
+    if x!=in[idx]:
+        y = 26
+    else:
+        y = 1
+
+    z = z*y
+
+    if x!=in[idx]:
+        y = in[idx] + B
+    else:
+        y = 0
+
+    z = z + y
+        
+
+
+
