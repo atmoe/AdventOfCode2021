@@ -214,13 +214,13 @@ if doPart1:
 
     count = 0
     while len(boards) > 0:
-        print("-------------------------------------------")
-        print(len(boards))
+        #print("-------------------------------------------")
+        #print(len(boards))
 
         minBoard = boards.pop()
 
-        minBoard.printBoard()
-        print(minBoard.energy)
+        #minBoard.printBoard()
+        #print(minBoard.energy)
         if minBoard.organized():
             break
 
@@ -482,13 +482,13 @@ if doPart2:
 
     count = 0
     while len(boards) > 0:
-        print("-------------------------------------------")
+        #print("-------------------------------------------")
         #print(len(boards))
 
         minBoard = boards.pop()
 
-        minBoard.printBoard()
-        print(minBoard.energy)
+        #minBoard.printBoard()
+        #print(minBoard.energy)
         if minBoard.organized():
             break
 
