@@ -69,33 +69,47 @@ print("------------------")
 print("---- PART 2 ------")
 print("------------------")
 
-def playTurn(p1, p2, turn, p1_wins, p2_wins):
+def playGame(game, count, gameHash, p1_wins, p2_wins):
+
     for r0 in [1, 2, 3]:
         for r1 in [1, 2, 3]:
             for r2 in [1, 2, 3]:
+                p1_pos   = game[0]
+                p1_score = game[1]
+                p2_pos   = game[2]
+                p2_score = game[3]
+                turn     = game[4]
+
+                roll = r0+r1+r2
+
                 if turn == 1:
-                    roll = r0+r1+r2
-                    p1_pos   = (p1[0] + roll) % 10
-                    p1_score = p1[1] + p1_pos + 1
-                    newP1 = (p1_pos, p1_score)
+                    p1_pos   = (p1_pos + roll) % 10
+                    p1_score = p1_score + p1_pos + 1
+                    newGame  = (p1_pos, p1_score, p2_pos, p2_score, 2)
 
                     if p1_score >= 21:
-                        p1_wins[0] += 1
+                        p1_wins[0] += count
                         if p1_wins[0] % 1000000 == 0:
                             print(p1_wins)
                     else:
-                        playTurn(newP1, p2, 2, p1_wins, p2_wins)
+                        if newGame in gameHash:
+                            gameHash[newGame] += count
+                        else:
+                            gameHash[newGame] = count
+
 
                 elif turn == 2:
-                    roll = r0+r1+r2
-                    p2_pos   = (p2[0] + roll) % 10
-                    p2_score = p2[1] + p2_pos + 1
-                    newP2 = (p2_pos, p2_score)
-                    
+                    p2_pos   = (p2_pos + roll) % 10
+                    p2_score = p2_score + p2_pos + 1
+                    newGame  = (p1_pos, p1_score, p2_pos, p2_score, 1)
+
                     if p2_score >= 21:
-                        p2_wins[0] += 1
+                        p2_wins[0] += count
                     else:
-                        playTurn(p1, newP2, 1, p2_wins, p2_wins)
+                        if newGame in gameHash:
+                            gameHash[newGame] += count
+                        else:
+                            gameHash[newGame] = count
 
 doPart2 = True
 if doPart2:
@@ -104,8 +118,33 @@ if doPart2:
    
     p1 = (4-1,0)
     p2 = (8-1,0)
-    
-    playTurn(p1, p2, 1, p1_wins, p2_wins)
 
-    print(f'Result = {p1_wins}')
-    print(f'Result = {p2_wins}')
+    # p1 pos, p1 score, p2 pos, p2 score, turn
+    #firstGame = (4-1, 0, 8-1, 0, 1)  # <-- Test Params
+    firstGame = (7-1, 0, 1-1, 0, 1)   # <-- Official params
+   
+    gameHash = {}
+    gameHash[firstGame] = 1
+
+    print("------------------------")
+    for g in gameHash:
+        print(f'{g} {gameHash[g]}')
+
+    while len(gameHash) > 0:
+        nextGameHash = {}
+        for g in gameHash:
+            count = gameHash[g]
+
+            playGame(g, count, nextGameHash, p1_wins, p2_wins)
+
+        gameHash = nextGameHash
+
+        #print("------------------------")
+        #for g in gameHash:
+        #    print(f'{g} {gameHash[g]}')
+
+        #break
+    
+
+    print(f'P1 wins = {p1_wins}')
+    print(f'P2 wins = {p2_wins}')
